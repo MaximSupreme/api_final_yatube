@@ -24,3 +24,12 @@ class Comment(models.Model):
     text = models.TextField()
     created = models.DateTimeField(
         'Дата добавления', auto_now_add=True, db_index=True)
+
+
+class Group(models.Model):
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
