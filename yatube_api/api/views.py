@@ -32,7 +32,7 @@ class PostViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    
+
     def get_permissions(self):
         if self.action == 'retrieve':
             return (ReadOnly(),)
@@ -73,7 +73,7 @@ class FollowViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Follow.objects.filter(user=self.request.user)
         return self.filter_queryset(queryset)
-    
+
     def perform_create(self, serializer):
         following_user = serializer.validated_data['following']
         if following_user == self.request.user:
