@@ -1,10 +1,10 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import filters, permissions, viewsets
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.exceptions import ValidationError, NotAuthenticated, MethodNotAllowed
+from rest_framework.exceptions import NotAuthenticated, MethodNotAllowed
 
 from posts.models import Post, Group, Comment, Follow
-from .permissions import IsAuthorOrReadOnly, ReadOnly
+from .permissions import IsAuthorOrReadOnly
 from .serializers import (
     PostSerializer, GroupSerializer, CommentSerializer, FollowSerializer
 )
@@ -15,7 +15,6 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     permission_classes = [IsAuthorOrReadOnly]
     pagination_class = LimitOffsetPagination
-
 
     def perform_create(self, serializer):
         if not self.request.user.is_authenticated:
@@ -34,7 +33,6 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = [IsAuthorOrReadOnly]
-
 
     def get_post(self):
         return get_object_or_404(Post, id=self.kwargs.get('post_id'))
@@ -62,7 +60,7 @@ class FollowViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-    
+
     def get_permissions(self):
         if self.request.method not in ['GET', 'POST']:
             raise MethodNotAllowed(self.request.method)
