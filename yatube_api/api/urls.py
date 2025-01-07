@@ -14,7 +14,6 @@ router.register('groups', GroupViewSet, basename='group')
 router.register(
     r'posts/(?P<post_id>\d+)/comments', CommentViewSet, basename='comment'
 )
-router.register('follow', FollowViewSet, basename='follow')
 
 
 urlpatterns = [
@@ -22,4 +21,5 @@ urlpatterns = [
     path('v1/api-token-auth/', views.obtain_auth_token, name='get_token'),
     path('v1/auth/', include('djoser.urls')),
     path('v1/', include('djoser.urls.jwt')),
+    path('v1/follow/', FollowViewSet.as_view())
 ]
