@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import filters, permissions, viewsets, generics
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.exceptions import MethodNotAllowed
 
 from posts.models import Post, Group, Comment, Follow
 from .permissions import IsAuthorOrReadOnly
